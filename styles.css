@@ -385,36 +385,16 @@ body {
   border-radius: 1px;
 }
 
-.swatch-gallery {
-  background: #ffffff;
-}
-
-.swatch-gallery::after {
-  content: "";
-  position: absolute;
-  inset: 4px 4px 8px 4px;
-  background: #3f4e45;
-  border-radius: 1px;
-}
-
-.swatch-vintage {
-  background: #ede6d8;
-}
-
-.swatch-vintage::after {
-  content: "";
-  position: absolute;
-  inset: 4px 4px 8px 4px;
-  background: #615042;
-  border: 1px solid #8a7761;
-  border-radius: 1px;
-}
-
 .template-name {
   font-family: var(--font-serif);
   font-size: 0.9rem;
   font-weight: 700;
   color: var(--text-primary);
+}
+
+.template-name.is-sans {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  letter-spacing: -0.01em;
 }
 
 .template-desc {

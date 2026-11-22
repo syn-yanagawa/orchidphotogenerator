@@ -13,8 +13,9 @@
   const CANVAS_WIDTH = 1600;
   const CANVAS_HEIGHT = 2000;
 
-  /** フォントファミリー定義（ユーザー指定: Times New Roman） */
-  const FONT_FAMILY = '"Times New Roman", Times, serif';
+  /** フォントファミリー定義 */
+  const FONT_SERIF = '"Times New Roman", Times, serif';
+  const FONT_SANS = '"Helvetica Neue", Helvetica, Arial, sans-serif';
 
   /** 写真フレームの配置定義（参考画像の計測比率に準拠） */
   const PHOTO_FRAME = {
@@ -34,67 +35,58 @@
     templateId: 'classic-ivory'
   };
 
-  /** デザインテンプレート定義 */
+  /** ベース配色定義（アイボリー / ダーク） */
+  const PALETTE_IVORY = {
+    background: '#F5F1F0',
+    stripBg: '#FFFFFF',
+    stripBorder: null,
+    stripText: '#111111',
+    scientificName: '#0A0A0A',
+    authorYear: '#1A1A1A',
+    originLabel: '#1A1A1A',
+    originValue: '#0A0A0A',
+    date: '#1A1A1A',
+    photoBorder: null,
+    placeholderBg: '#231E26',
+    placeholderText: 'rgba(245, 241, 240, 0.65)'
+  };
+
+  const PALETTE_DARK = {
+    background: '#141413',
+    stripBg: '#1F1E1C',
+    stripBorder: '#3B3935',
+    stripText: '#EDE8DF',
+    scientificName: '#F6F2EA',
+    authorYear: '#C9C2B6',
+    originLabel: '#C9C2B6',
+    originValue: '#F2ECE2',
+    date: '#A8A095',
+    photoBorder: 'rgba(255, 255, 255, 0.14)',
+    placeholderBg: '#232220',
+    placeholderText: 'rgba(237, 232, 223, 0.55)'
+  };
+
+  /** デザインテンプレート定義（配色 × 書体） */
   const TEMPLATES = {
     'classic-ivory': {
-      background: '#F5F1F0',
-      stripBg: '#FFFFFF',
-      stripBorder: null,
-      stripText: '#111111',
-      scientificName: '#0A0A0A',
-      authorYear: '#1A1A1A',
-      originLabel: '#1A1A1A',
-      originValue: '#0A0A0A',
-      date: '#1A1A1A',
-      photoBorder: null,
-      outerRule: false,
-      placeholderBg: '#231E26',
-      placeholderText: 'rgba(245, 241, 240, 0.65)'
+      ...PALETTE_IVORY,
+      fontFamily: FONT_SERIF,
+      fontScale: 1
     },
     'herbarium-dark': {
-      background: '#141413',
-      stripBg: '#1F1E1C',
-      stripBorder: '#3B3935',
-      stripText: '#EDE8DF',
-      scientificName: '#F6F2EA',
-      authorYear: '#C9C2B6',
-      originLabel: '#C9C2B6',
-      originValue: '#F2ECE2',
-      date: '#A8A095',
-      photoBorder: 'rgba(255, 255, 255, 0.14)',
-      outerRule: false,
-      placeholderBg: '#232220',
-      placeholderText: 'rgba(237, 232, 223, 0.55)'
+      ...PALETTE_DARK,
+      fontFamily: FONT_SERIF,
+      fontScale: 1
     },
-    'gallery-minimal': {
-      background: '#FFFFFF',
-      stripBg: '#111111',
-      stripBorder: null,
-      stripText: '#FFFFFF',
-      scientificName: '#111111',
-      authorYear: '#444444',
-      originLabel: '#333333',
-      originValue: '#111111',
-      date: '#555555',
-      photoBorder: 'rgba(0, 0, 0, 0.1)',
-      outerRule: false,
-      placeholderBg: '#2A2F2C',
-      placeholderText: 'rgba(255, 255, 255, 0.65)'
+    'helvetica-ivory': {
+      ...PALETTE_IVORY,
+      fontFamily: FONT_SANS,
+      fontScale: 0.92
     },
-    'vintage-botanical': {
-      background: '#EDE6D8',
-      stripBg: '#F7F2E7',
-      stripBorder: '#B7AA93',
-      stripText: '#2A231B',
-      scientificName: '#1F1914',
-      authorYear: '#3E342A',
-      originLabel: '#3B3127',
-      originValue: '#1F1914',
-      date: '#4D4135',
-      photoBorder: '#B7AA93',
-      outerRule: true,
-      placeholderBg: '#362E27',
-      placeholderText: 'rgba(247, 242, 231, 0.65)'
+    'helvetica-dark': {
+      ...PALETTE_DARK,
+      fontFamily: FONT_SANS,
+      fontScale: 0.92
     }
   };
 
@@ -236,9 +228,9 @@
       ctx.fillStyle = theme.placeholderText;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.font = `italic 48px ${FONT_FAMILY}`;
+      ctx.font = `italic ${Math.round(48 * theme.fontScale)}px ${theme.fontFamily}`;
       ctx.fillText('Upload a botanical photograph', x + width / 2, y + height / 2 - 28);
-      ctx.font = `28px ${FONT_FAMILY}`;
+      ctx.font = `${Math.round(28 * theme.fontScale)}px ${theme.fontFamily}`;
       ctx.fillText('左パネルから画像をアップロードしてください', x + width / 2, y + height / 2 + 34);
     }
 
@@ -269,10 +261,10 @@
     const paddingY = 26;
     const maxStripHeight = PHOTO_FRAME.y + PHOTO_FRAME.height - stripY - 24;
 
-    // フォントサイズを基本 31px とし、長文なら自動縮小して帯に収める
-    let fontSize = 31;
+    // フォントサイズを基本 31px（書体比率補正付き）とし、長文なら自動縮小して帯に収める
+    let fontSize = Math.round(31 * theme.fontScale);
     let letterSpacing = 2.6;
-    ctx.font = `400 ${fontSize}px ${FONT_FAMILY}`;
+    ctx.font = `400 ${fontSize}px ${theme.fontFamily}`;
     let textWidth = measureSpacedText(ctx, trimmed, letterSpacing);
 
     const maxTextWidth = maxStripHeight - paddingY * 2;
@@ -280,7 +272,7 @@
       const ratio = maxTextWidth / textWidth;
       fontSize = Math.max(18, Math.floor(fontSize * ratio));
       letterSpacing = Math.max(0.8, letterSpacing * ratio);
-      ctx.font = `400 ${fontSize}px ${FONT_FAMILY}`;
+      ctx.font = `400 ${fontSize}px ${theme.fontFamily}`;
       textWidth = measureSpacedText(ctx, trimmed, letterSpacing);
     }
 
@@ -302,11 +294,11 @@
     ctx.translate(stripX + stripWidth / 2, stripY + paddingY);
     ctx.rotate(Math.PI / 2);
     ctx.fillStyle = theme.stripText;
-    ctx.font = `400 ${fontSize}px ${FONT_FAMILY}`;
+    ctx.font = `400 ${fontSize}px ${theme.fontFamily}`;
     ctx.textAlign = 'left';
     ctx.textBaseline = 'middle';
 
-    // 視覚的な垂直中央補正（Times New Roman のベースライン特性に合わせて微調整）
+    // 視覚的な垂直中央補正（書体のベースライン特性に合わせて微調整）
     drawSpacedText(ctx, trimmed, 0, 1, letterSpacing);
 
     ctx.restore();
@@ -328,22 +320,22 @@
     // --- 1. 学名（Bold Italic） + 記載者と記載年（Regular） ---
     if (scientificName || authorYear) {
       const baselineY = 1838;
-      let sciFontSize = 74;
-      let authorFontSize = 40;
+      let sciFontSize = Math.round(74 * theme.fontScale);
+      let authorFontSize = Math.round(40 * theme.fontScale);
       let gap = 26;
 
       // 1行に収まるように必要に応じて自動スケール調整
       const measureCombinedWidth = () => {
         let width = 0;
         if (scientificName) {
-          ctx.font = `700 italic ${sciFontSize}px ${FONT_FAMILY}`;
+          ctx.font = `700 italic ${sciFontSize}px ${theme.fontFamily}`;
           width += ctx.measureText(scientificName).width;
         }
         if (scientificName && authorYear) {
           width += gap;
         }
         if (authorYear) {
-          ctx.font = `400 ${authorFontSize}px ${FONT_FAMILY}`;
+          ctx.font = `400 ${authorFontSize}px ${theme.fontFamily}`;
           width += ctx.measureText(authorYear).width;
         }
         return width;
@@ -363,14 +355,14 @@
 
       let cursorX = leftX;
       if (scientificName) {
-        ctx.font = `700 italic ${sciFontSize}px ${FONT_FAMILY}`;
+        ctx.font = `700 italic ${sciFontSize}px ${theme.fontFamily}`;
         ctx.fillStyle = theme.scientificName;
         ctx.fillText(scientificName, cursorX, baselineY);
         cursorX += ctx.measureText(scientificName).width + gap;
       }
 
       if (authorYear) {
-        ctx.font = `400 ${authorFontSize}px ${FONT_FAMILY}`;
+        ctx.font = `400 ${authorFontSize}px ${theme.fontFamily}`;
         ctx.fillStyle = theme.authorYear;
         ctx.fillText(authorYear, cursorX, baselineY);
       }
@@ -385,10 +377,10 @@
       const prefixText = hasPrefix ? '' : 'Native to : ';
       const valueText = originRaw;
 
-      let originFontSize = 33;
-      ctx.font = `400 ${originFontSize}px ${FONT_FAMILY}`;
+      let originFontSize = Math.round(33 * theme.fontScale);
+      ctx.font = `400 ${originFontSize}px ${theme.fontFamily}`;
       const prefixWidthInitial = prefixText ? ctx.measureText(prefixText).width : 0;
-      ctx.font = `700 ${originFontSize}px ${FONT_FAMILY}`;
+      ctx.font = `700 ${originFontSize}px ${theme.fontFamily}`;
       const valueWidthInitial = ctx.measureText(valueText).width;
 
       if (prefixWidthInitial + valueWidthInitial > maxLineWidth) {
@@ -402,13 +394,13 @@
 
       let cursorX = leftX;
       if (prefixText) {
-        ctx.font = `400 ${originFontSize}px ${FONT_FAMILY}`;
+        ctx.font = `400 ${originFontSize}px ${theme.fontFamily}`;
         ctx.fillStyle = theme.originLabel;
         ctx.fillText(prefixText, cursorX, baselineY);
         cursorX += ctx.measureText(prefixText).width;
       }
 
-      ctx.font = `700 ${originFontSize}px ${FONT_FAMILY}`;
+      ctx.font = `700 ${originFontSize}px ${theme.fontFamily}`;
       ctx.fillStyle = theme.originValue;
       ctx.fillText(valueText, cursorX, baselineY);
       ctx.restore();
@@ -418,26 +410,13 @@
     if (dateText) {
       const baselineY = 1954;
       ctx.save();
-      ctx.font = `400 25px ${FONT_FAMILY}`;
+      ctx.font = `400 ${Math.round(25 * theme.fontScale)}px ${theme.fontFamily}`;
       ctx.fillStyle = theme.date;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'alphabetic';
       ctx.fillText(dateText, CANVAS_WIDTH / 2, baselineY);
       ctx.restore();
     }
-  }
-
-  /**
-   * Vintage Botanical テンプレート用のクラシカルな外周二重罫線を描画する
-   */
-  function drawVintageOuterRule() {
-    ctx.save();
-    ctx.strokeStyle = 'rgba(138, 121, 98, 0.45)';
-    ctx.lineWidth = 2;
-    ctx.strokeRect(24, 24, CANVAS_WIDTH - 48, CANVAS_HEIGHT - 48);
-    ctx.lineWidth = 1;
-    ctx.strokeRect(32, 32, CANVAS_WIDTH - 64, CANVAS_HEIGHT - 64);
-    ctx.restore();
   }
 
   /**
@@ -449,11 +428,6 @@
     // 背景塗りつぶし
     ctx.fillStyle = theme.background;
     ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-
-    // 古書風テンプレートの外枠罫線
-    if (theme.outerRule) {
-      drawVintageOuterRule();
-    }
 
     // 写真エリア
     drawPhotoArea(theme);
