@@ -17,12 +17,12 @@
   const FONT_SERIF = '"Times New Roman", Times, serif';
   const FONT_SANS = '"Helvetica Neue", Helvetica, Arial, sans-serif';
 
-  /** 写真フレームの配置定義（参考画像の計測比率に準拠） */
+  /** 写真フレームの配置定義（下部ロゴ用の余白を確保するため縦を少し調整） */
   const PHOTO_FRAME = {
     x: 80,      // 左余白 5.0%
     y: 80,      // 上余白 4.0%
     width: 1440, // 幅 90.0%（右余白も 5.0%）
-    height: 1678 // 高さ 83.9%（下端 87.9%）
+    height: 1608 // 高さ 80.4%（下端 84.4%）
   };
 
   /** 初期サンプル値 */
@@ -47,6 +47,7 @@
     originValue: '#0A0A0A',
     date: '#1A1A1A',
     photoBorder: null,
+    logoTint: null, // アイボリー背景では元の深緑ロゴをそのまま使用
     placeholderBg: '#231E26',
     placeholderText: 'rgba(245, 241, 240, 0.65)'
   };
@@ -62,6 +63,7 @@
     originValue: '#F2ECE2',
     date: '#A8A095',
     photoBorder: 'rgba(255, 255, 255, 0.14)',
+    logoTint: '#EDE8DF', // ダーク背景では沈まないようオフホワイトに着色
     placeholderBg: '#232220',
     placeholderText: 'rgba(237, 232, 223, 0.55)'
   };
@@ -93,6 +95,8 @@
   /** アプリケーション状態 */
   const state = {
     image: null,
+    logoImage: null,
+    showLogo: true,
     fileName: '',
     zoom: 1,
     offsetX: 0, // キャンバス座標系での水平オフセット
@@ -123,6 +127,7 @@
     todayButton: document.getElementById('todayButton'),
     resetButton: document.getElementById('resetButton'),
     templateButtons: Array.from(document.querySelectorAll('.template-card')),
+    showLogoCheckbox: document.getElementById('showLogoCheckbox'),
     downloadPngButton: document.getElementById('downloadPngButton'),
     downloadJpgButton: document.getElementById('downloadJpgButton')
   };
@@ -307,6 +312,7 @@
   /**
    * 下部のテキスト群（学名・記載者と記載年・原産国・日付）を描画する
    * @param {Object} theme - 現在のテンプレート定義
+   * @returns {number} 描画された日付テキストの幅（px、未入力時は 0）
    */
   function drawBottomTypography(theme) {
     const scientificName = elements.scientificNameInput.value.trim();
@@ -316,10 +322,11 @@
 
     const leftX = PHOTO_FRAME.x;
     const maxLineWidth = PHOTO_FRAME.width;
+    let measuredDateWidth = 0;
 
     // --- 1. 学名（Bold Italic） + 記載者と記載年（Regular） ---
     if (scientificName || authorYear) {
-      const baselineY = 1838;
+      const baselineY = 1768;
       let sciFontSize = Math.round(74 * theme.fontScale);
       let authorFontSize = Math.round(40 * theme.fontScale);
       let gap = 26;
@@ -372,7 +379,7 @@
 
     // --- 2. 原産国（Native to : Regular + 国名 Bold） ---
     if (originRaw) {
-      const baselineY = 1896;
+      const baselineY = 1826;
       const hasPrefix = /^native\s+to\s*:/i.test(originRaw);
       const prefixText = hasPrefix ? '' : 'Native to : ';
       const valueText = originRaw;
@@ -408,15 +415,60 @@
 
     // --- 3. 日付（下部中央） ---
     if (dateText) {
-      const baselineY = 1954;
+      const baselineY = 1882;
       ctx.save();
       ctx.font = `400 ${Math.round(25 * theme.fontScale)}px ${theme.fontFamily}`;
       ctx.fillStyle = theme.date;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'alphabetic';
+      measuredDateWidth = ctx.measureText(dateText).width;
       ctx.fillText(dateText, CANVAS_WIDTH / 2, baselineY);
       ctx.restore();
     }
+
+    return measuredDateWidth;
+  }
+
+  /**
+   * 日付の下・中央にブランドロゴ（syn.）を描画する
+   * 横幅は日付テキスト幅の約70%を基準に算出する
+   * @param {Object} theme - 現在のテンプレート定義
+   * @param {number} dateWidth - 日付テキストの描画幅（px）
+   */
+  function drawBrandLogo(theme, dateWidth) {
+    if (!state.showLogo || !state.logoImage) return;
+
+    const logo = state.logoImage;
+    // 日付幅の約70%（日付未入力や極端な短文でも破綻しないようクランプ）
+    const baseWidth = dateWidth > 0 ? dateWidth * 0.7 : 154;
+    const targetWidth = Math.min(185, Math.max(96, Math.round(baseWidth)));
+    const targetHeight = Math.round(targetWidth * (logo.naturalHeight / logo.naturalWidth));
+
+    const drawX = Math.round((CANVAS_WIDTH - targetWidth) / 2);
+    const drawY = 1906;
+
+    ctx.save();
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+
+    if (theme.logoTint) {
+      // ダークテンプレート時はオフスクリーンCanvasで単色着色してから合成
+      const offscreen = document.createElement('canvas');
+      offscreen.width = targetWidth;
+      offscreen.height = targetHeight;
+      const offCtx = offscreen.getContext('2d');
+      offCtx.imageSmoothingEnabled = true;
+      offCtx.imageSmoothingQuality = 'high';
+      offCtx.drawImage(logo, 0, 0, targetWidth, targetHeight);
+      offCtx.globalCompositeOperation = 'source-in';
+      offCtx.fillStyle = theme.logoTint;
+      offCtx.fillRect(0, 0, targetWidth, targetHeight);
+      ctx.drawImage(offscreen, drawX, drawY);
+    } else {
+      ctx.drawImage(logo, drawX, drawY, targetWidth, targetHeight);
+    }
+
+    ctx.restore();
   }
 
   /**
@@ -436,7 +488,10 @@
     drawTaxonomyStrip(theme, elements.taxonomyInput.value);
 
     // 下部の学名・記載者・原産国・日付
-    drawBottomTypography(theme);
+    const dateWidth = drawBottomTypography(theme);
+
+    // 日付下のブランドロゴ
+    drawBrandLogo(theme, dateWidth);
   }
 
   /**
@@ -656,6 +711,14 @@
       });
     });
 
+    // ロゴ表示 ON/OFF 切り替え
+    if (elements.showLogoCheckbox) {
+      elements.showLogoCheckbox.addEventListener('change', () => {
+        state.showLogo = elements.showLogoCheckbox.checked;
+        renderPlate();
+      });
+    }
+
     // サンプル値リセット
     elements.resetButton.addEventListener('click', () => {
       elements.taxonomyInput.value = DEFAULT_VALUES.taxonomy;
@@ -665,6 +728,10 @@
       elements.dateInput.value = DEFAULT_VALUES.date;
 
       state.templateId = DEFAULT_VALUES.templateId;
+      state.showLogo = true;
+      if (elements.showLogoCheckbox) {
+        elements.showLogoCheckbox.checked = true;
+      }
       elements.templateButtons.forEach((btn) => {
         const isSelected = btn.dataset.template === DEFAULT_VALUES.templateId;
         btn.classList.toggle('is-active', isSelected);
@@ -683,9 +750,23 @@
     });
   }
 
+  /**
+   * ブランドロゴ（syn.）画像を読み込む
+   */
+  function loadBrandLogo() {
+    const logoSrc = window.SYN_LOGO_DATA_URL || 'assets/syn-logo.png';
+    const img = new Image();
+    img.onload = () => {
+      state.logoImage = img;
+      renderPlate();
+    };
+    img.src = logoSrc;
+  }
+
   /** 初期化処理 */
   function init() {
     bindEvents();
+    loadBrandLogo();
     renderPlate();
   }
 
