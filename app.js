@@ -438,9 +438,9 @@
     if (!state.showLogo || !state.logoImage) return;
 
     const logo = state.logoImage;
-    // 日付のラインに上品に収まるサイズ（日付幅の約50%、基準110px）
-    const baseWidth = dateWidth > 0 ? dateWidth * 0.5 : 110;
-    const targetWidth = Math.min(130, Math.max(88, Math.round(baseWidth)));
+    // 日付の文字高さと自然に釣り合うさりげない極小サイズ（基準幅 64px）
+    const baseWidth = dateWidth > 0 ? dateWidth * 0.3 : 64;
+    const targetWidth = Math.min(72, Math.max(56, Math.round(baseWidth)));
     const targetHeight = Math.round(targetWidth * (logo.naturalHeight / logo.naturalWidth));
 
     // 写真フレーム右端に揃え、ロゴの文字ベースライン（yのディセンダー除く約72%位置）を日付ライン(1954)に合わせる
