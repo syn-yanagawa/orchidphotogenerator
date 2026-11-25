@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Botanical Plate Generator — 植物図鑑画像ジェネレータ</title>
-  <link rel="stylesheet" href="styles.css?v=20261125-1">
+  <link rel="stylesheet" href="styles.css?v=20261125-2">
 </head>
 <body>
   <div class="app-shell">
@@ -16,11 +16,6 @@
           <h1 class="brand-title">Botanical Plate Generator</h1>
           <p class="brand-subtitle">植物図鑑風画像ジェネレーター</p>
         </div>
-      </div>
-      <div class="header-actions">
-        <button type="button" id="resetButton" class="btn btn-ghost" title="入力内容を初期サンプルに戻す">
-          サンプルに戻す
-        </button>
       </div>
     </header>
 
@@ -65,7 +60,12 @@
 
         <!-- 2. 種の情報（5項目） -->
         <div class="form-section">
-          <h2 class="section-heading">2. 種の情報</h2>
+          <div class="section-heading-row">
+            <h2 class="section-heading">2. 種の情報</h2>
+            <button type="button" id="resetButton" class="btn btn-text" title="入力内容を初期サンプルに戻す">
+              初期サンプルに戻す
+            </button>
+          </div>
 
           <div class="field">
             <label for="taxonomyInput" class="field-label">
@@ -213,7 +213,6 @@
               aria-label="生成された植物図鑑プレートのプレビュー"
             ></canvas>
           </div>
-          <p class="preview-meta">出力サイズ: 1600 × 2000 px（縦横比 4:5）</p>
         </div>
 
         <div class="export-bar">
