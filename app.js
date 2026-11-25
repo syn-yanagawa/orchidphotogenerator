@@ -125,7 +125,6 @@
     dateInput: document.getElementById('dateInput'),
     resetButton: document.getElementById('resetButton'),
     templateButtons: Array.from(document.querySelectorAll('.template-card')),
-    downloadPngButton: document.getElementById('downloadPngButton'),
     downloadJpgButton: document.getElementById('downloadJpgButton')
   };
 
@@ -719,11 +718,7 @@
       renderPlate();
     });
 
-    // PNG / JPEG ダウンロード
-    elements.downloadPngButton.addEventListener('click', () => {
-      downloadPlate('image/png', 'png');
-    });
-
+    // JPEG ダウンロード
     elements.downloadJpgButton.addEventListener('click', () => {
       downloadPlate('image/jpeg', 'jpg');
     });

@@ -68,9 +68,8 @@
   - 右：**OrchidRoots**（`https://orchidroots.com/`）
 
 ### 出力機能
-- **PNG ダウンロード**（可逆・高画質）
-- **JPEG ダウンロード**（品質 `0.94`・SNS共有向け）
-- ファイル名は学名から自動生成（例: `Cattleya_maxima.png`）
+- **JPEG ダウンロードのみ**（品質 `0.94`、黒ボックス `#141413` ＋ 白文字の `Download` ボタン1つ）
+- ファイル名は学名から自動生成（例: `Cattleya_maxima.jpg`）
 
 ---
 
