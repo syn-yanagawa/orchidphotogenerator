@@ -34,27 +34,35 @@
 - **出力解像度**: `1600 × 2000 px`（縦横比 **4:5**）
 - **写真フレーム**:
   - 左余白 `80px`（5.0%）/ 右余白 `80px`（5.0%）→ 幅 `1440px`（90.0%）
-  - 上余白 `80px`（4.0%）/ 高さ `1678px`（83.9%、下端 87.9%）
+  - 上余白 `80px`（4.0%）/ 高さ `1608px`（80.4%、下端 `1688px`・下部テキストのゆとりを確保）
   - `cover` 基準で自動フィット。アップロード後はズーム（100%〜300%）およびプレビュー上のドラッグで構図調整可能。
 - **左上縦配置ラベル（分類）**:
   - `x = 47px`, `y = 58px`, `幅 = 64px`（写真の左端 `80px` をちょうど中心にまたぐ配置）
   - テキストは時計回りに 90 度回転して上から下へ描画。文字長に応じて帯の高さが自動伸縮（長すぎる場合はフォントサイズを自動縮小）。空欄時は帯自体を非表示。
 
-### 5つのテキスト入力項目
+### 5つのテキスト入力項目（「2. 種の情報」）＋ロゴ
 1. **分類（科・亜科・族・亜族）**: 左上縦帯（例: `Orchidaceae / Epidendroideae / Epidendreae / Laeliinae`）
-2. **植物の学名**: 左下（`x = 80px`, `y = 1838px`）・**Bold Italic**（例: `Cattleya maxima`）
+2. **植物の学名**: 左下（`x = 80px`, `y = 1790px`）・**Bold Italic**（例: `Cattleya maxima`）
 3. **記載者と記載年**: 学名の右隣・**Regular**（例: `Lindl. 1833`）※ 学名＋記載者が幅 `1440px` を超える場合は自動で1行に縮小フィット
-4. **原産国**: 左下2行目（`x = 80px`, `y = 1896px`）・`Native to : `（Regular）＋ 入力テキスト（**Bold**）を自動整形（すでに `Native to:` を含む場合は重複させない）
-5. **日付**: 下部中央（`x = 800px`, `y = 1954px`）・Regular（例: `November 20th, 2026`。「今日の日付を入力」ボタン付き）
-6. **ブランドロゴ（`syn.`）**: 日付のライン（`y = 1954px`）上で写真右端揃え（`x = 1520px` 右端）。`s`・`n`・`.` のベースラインを日付に揃え、Dark テンプレート時はオフホワイト（`#EDE8DF`）に自動着色。UI のチェックボックスで ON/OFF 切替可能。
+4. **原産国**: 左下2行目（`x = 80px`, `y = 1864px`）・`Native to : `（Regular）＋ 入力テキスト（**Bold**）を自動整形（すでに `Native to:` を含む場合は重複させない）
+5. **日付**: 下部中央（`x = 800px`, `y = 1946px`）・Regular（例: `November 20th, 2026`。「今日の日付を入力」ボタン付き）
+6. **ブランドロゴ（`syn.`）**: 日付のライン（`y = 1946px`）上で写真右端揃え（`x = 1520px` 右端）、常時表示（非表示トグルなし）。横幅は日付幅の約50%（基準 `110px`、範囲 `88〜130px`）。`s`・`n`・`.` のベースラインを日付ラインに揃え、**Ivory テンプレート時は黒（`#111111`）**、**Dark テンプレート時はオフホワイト（`#EDE8DF`）**に着色。
 
 ### 4種類のデザインテンプレート（配色 × 書体）
-| テンプレートID | 表示名 | 配色 | 書体 | サイズ補正 (`fontScale`) |
-| --- | --- | --- | --- | --- |
-| `classic-ivory`（デフォルト） | Classic Ivory | 背景 `#F5F1F0` / 白帯 `#FFFFFF` | Times New Roman | `1.0` |
-| `herbarium-dark` | Herbarium Dark | 背景 `#141413` / 暗帯 `#1F1E1C` | Times New Roman | `1.0` |
-| `helvetica-ivory` | Helvetica Ivory | 背景 `#F5F1F0` / 白帯 `#FFFFFF` | Helvetica | `0.92` |
-| `helvetica-dark` | Helvetica Dark | 背景 `#141413` / 暗帯 `#1F1E1C` | Helvetica | `0.92` |
+| テンプレートID | ボタン表示名 | 書体ラベル | 配色 | 書体 | サイズ補正 (`fontScale`) |
+| --- | --- | --- | --- | --- | --- |
+| `classic-ivory`（デフォルト） | Classic Ivory | Times New Roman | 背景 `#F5F1F0` / 白帯 `#FFFFFF` | Times New Roman | `1.0` |
+| `herbarium-dark` | Herbarium Dark | Times New Roman | 背景 `#141413` / 暗帯 `#1F1E1C` | Times New Roman | `1.0` |
+| `helvetica-ivory` | Classic Ivory | Helvetica | 背景 `#F5F1F0` / 白帯 `#FFFFFF` | Helvetica | `0.92` |
+| `helvetica-dark` | Herbarium Dark | Helvetica | 背景 `#141413` / 暗帯 `#1F1E1C` | Helvetica | `0.92` |
+
+### サイトUIデザイン仕様
+- **配色・形状**: ページ背景は純白（`#ffffff`）。テキストボックス・ドロップゾーン・ボタン・テンプレートカード・プレビュー枠の角丸はすべて**直角（`0px`）**、縁のボーダーなし。各ボックス内の背景色は薄いウォームグレー（`#f4f2ee`）。
+- **テンプレートボタン**: スウォッチアイコンなし。`Herbarium Dark` の2ボタンはダーク背景（`#1a1918`）×オフホワイト文字（`#f5f1ea`）にカラー反転。選択中は内側にアクセントカラーのリングを表示。
+- **サイト側フォント**: Google Fonts の **Shippori Mincho** を全体に適用（※ Canvas生成画像内の Times New Roman / Helvetica、および Helvetica テンプレートカード内の表記 `.is-sans` は維持）。
+- **参考サイトリンク**: 「2. 種の情報」の下部に `参考サイト` 見出し＋横並びボタン（別タブ開き）を配置。
+  - 左：**Kew POWO**（`https://powo.science.kew.org/`）
+  - 右：**OrchidRoots**（`https://orchidroots.com/`）
 
 ### 出力機能
 - **PNG ダウンロード**（可逆・高画質）
@@ -110,5 +118,10 @@ git push origin main
 
 ## 6. 現在のステータス・次のステップ
 
-- **現在の状態**: 基本機能・4テンプレート（Ivory/Dark × Times New Roman/Helvetica）・GitHub Pages 公開まで完了済み。
-- **次の予定**: ユーザーからの細かいデザイン微調整（余白・文字サイズ・配色・UI使い勝手など）を順次反映していくフェーズ。
+- **現在の状態**:
+  - 4テンプレート（Classic Ivory / Herbarium Dark × Times New Roman / Helvetica）実装済み
+  - `syn.` ロゴ（日付ライン右端・黒/オフホワイト自動着色・常時表示）＆下部テキストのゆとりレイアウト調整済み
+  - サイトUIを純白背景・直角ボーダーレス・薄グレー面・Shippori Mincho に刷新済み
+  - 「2. 種の情報」＋参考サイトリンク（Kew POWO / OrchidRoots）設置済み
+  - GitHub Pages 公開・同期済み
+- **次の予定**: 追加の細かいデザイン調整・機能追加があれば順次反映していくフェーズ。
