@@ -96,7 +96,6 @@
   const state = {
     image: null,
     logoImage: null,
-    showLogo: true,
     fileName: '',
     zoom: 1,
     offsetX: 0, // キャンバス座標系での水平オフセット
@@ -127,7 +126,6 @@
     todayButton: document.getElementById('todayButton'),
     resetButton: document.getElementById('resetButton'),
     templateButtons: Array.from(document.querySelectorAll('.template-card')),
-    showLogoCheckbox: document.getElementById('showLogoCheckbox'),
     downloadPngButton: document.getElementById('downloadPngButton'),
     downloadJpgButton: document.getElementById('downloadJpgButton')
   };
@@ -435,7 +433,7 @@
    * @param {number} dateWidth - 日付テキストの描画幅（px）
    */
   function drawBrandLogo(theme, dateWidth) {
-    if (!state.showLogo || !state.logoImage) return;
+    if (!state.logoImage) return;
 
     const logo = state.logoImage;
     // 日付のラインに上品に収まるサイズ（日付幅の約50%、基準110px）
@@ -711,14 +709,6 @@
       });
     });
 
-    // ロゴ表示 ON/OFF 切り替え
-    if (elements.showLogoCheckbox) {
-      elements.showLogoCheckbox.addEventListener('change', () => {
-        state.showLogo = elements.showLogoCheckbox.checked;
-        renderPlate();
-      });
-    }
-
     // サンプル値リセット
     elements.resetButton.addEventListener('click', () => {
       elements.taxonomyInput.value = DEFAULT_VALUES.taxonomy;
@@ -728,10 +718,6 @@
       elements.dateInput.value = DEFAULT_VALUES.date;
 
       state.templateId = DEFAULT_VALUES.templateId;
-      state.showLogo = true;
-      if (elements.showLogoCheckbox) {
-        elements.showLogoCheckbox.checked = true;
-      }
       elements.templateButtons.forEach((btn) => {
         const isSelected = btn.dataset.template === DEFAULT_VALUES.templateId;
         btn.classList.toggle('is-active', isSelected);
