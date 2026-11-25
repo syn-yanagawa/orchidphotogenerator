@@ -78,18 +78,13 @@ body {
 .brand {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
 }
 
-.brand-mark {
-  width: 38px;
-  height: 38px;
-  border-radius: 0;
-  background: var(--accent);
-  color: #f7f4ef;
-  display: grid;
-  place-items: center;
-  font-size: 18px;
+.brand-logo {
+  height: 28px;
+  width: auto;
+  display: block;
   flex-shrink: 0;
 }
 
