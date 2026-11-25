@@ -556,9 +556,9 @@ body {
 
 .btn-ghost {
   background: var(--bg-box);
-  color: var(--text-secondary);
-  padding: 8px 14px;
-  font-size: 0.8rem;
+  color: var(--text-primary);
+  padding: 6px 12px;
+  font-size: 0.76rem;
 }
 
 .btn-ghost:hover {
