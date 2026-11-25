@@ -17,12 +17,12 @@
   const FONT_SERIF = '"Times New Roman", Times, serif';
   const FONT_SANS = '"Helvetica Neue", Helvetica, Arial, sans-serif';
 
-  /** 写真フレームの配置定義（参考画像の計測比率に準拠） */
+  /** 写真フレームの配置定義（下部テキストのゆとりを確保した4:5バランス） */
   const PHOTO_FRAME = {
     x: 80,      // 左余白 5.0%
     y: 80,      // 上余白 4.0%
     width: 1440, // 幅 90.0%（右余白も 5.0%）
-    height: 1678 // 高さ 83.9%（下端 87.9%）
+    height: 1608 // 高さ 80.4%（下端 84.4%）
   };
 
   /** 初期サンプル値 */
@@ -324,7 +324,7 @@
 
     // --- 1. 学名（Bold Italic） + 記載者と記載年（Regular） ---
     if (scientificName || authorYear) {
-      const baselineY = 1838;
+      const baselineY = 1790;
       let sciFontSize = Math.round(74 * theme.fontScale);
       let authorFontSize = Math.round(40 * theme.fontScale);
       let gap = 26;
@@ -377,7 +377,7 @@
 
     // --- 2. 原産国（Native to : Regular + 国名 Bold） ---
     if (originRaw) {
-      const baselineY = 1896;
+      const baselineY = 1864;
       const hasPrefix = /^native\s+to\s*:/i.test(originRaw);
       const prefixText = hasPrefix ? '' : 'Native to : ';
       const valueText = originRaw;
@@ -413,7 +413,7 @@
 
     // --- 3. 日付（下部中央） ---
     if (dateText) {
-      const baselineY = 1954;
+      const baselineY = 1946;
       ctx.save();
       ctx.font = `400 ${Math.round(25 * theme.fontScale)}px ${theme.fontFamily}`;
       ctx.fillStyle = theme.date;
@@ -441,9 +441,9 @@
     const targetWidth = Math.min(130, Math.max(88, Math.round(baseWidth)));
     const targetHeight = Math.round(targetWidth * (logo.naturalHeight / logo.naturalWidth));
 
-    // 写真フレーム右端に揃え、ロゴの文字ベースライン（yのディセンダー除く約72%位置）を日付ライン(1954)に合わせる
+    // 写真フレーム右端に揃え、ロゴの文字ベースライン（yのディセンダー除く約72%位置）を日付ライン(1946)に合わせる
     const drawX = PHOTO_FRAME.x + PHOTO_FRAME.width - targetWidth;
-    const drawY = Math.round(1954 - targetHeight * 0.72);
+    const drawY = Math.round(1946 - targetHeight * 0.72);
 
     ctx.save();
     ctx.imageSmoothingEnabled = true;
