@@ -62,7 +62,7 @@
 - **リセット導線**: 「2. 種の情報」見出しの右端に `初期サンプルに戻す` ボタン（青寄りグレー背景・直角）を配置（プレビュー下の出力サイズテキストは削除済み）。
 - **配色・形状**: ページ背景は純白（`#ffffff`）。テキストボックス・ドロップゾーン・ボタン・テンプレートカード・プレビュー枠の角丸はすべて**直角（`0px`）**、縁のボーダーなし。各ボックス・テキストボックス内の背景色は青寄りのクールグレー（`#eef1f5`）。
 - **テンプレートボタン**: スウォッチアイコンなし。`Herbarium Dark` の2ボタンはダーク背景（`#1a1918`）×オフホワイト文字（`#f5f1ea`）にカラー反転。選択中は内側にアクセントカラーのリングを表示。
-- **サイト側フォント**: 欧文 **Helvetica**（`"Helvetica Neue", Helvetica, Arial`）＋ 和文 **游ゴシック**（`"Yu Gothic", "YuGothic"`）の混植を UI 全体に適用（※ 「2. 種の情報」のテキストボックス内、Canvas 生成画像内の Times New Roman / Helvetica、およびテンプレートカードの Times New Roman 表示は維持）。
+- **サイト側フォント・余白**: 欧文 **Helvetica**（`"Helvetica Neue", Helvetica, Arial`）＋ 和文 **游ゴシック**（`"Yu Gothic", "YuGothic"`）の混植を UI 全体に適用（※ 「2. 種の情報」のテキストボックス内、Canvas 生成画像内の Times New Roman / Helvetica、およびテンプレートカードの Times New Roman 表示は維持）。ヘッダーを除いたメイン領域（`.workspace`）はゆったりとした字間（`letter-spacing: 0.06em` 基準）・行間（`line-height: 1.85`）・広めの要素間余白を設定。
 - **参考サイトリンク**: 「2. 種の情報」の下部に `参考サイト` 見出し＋横並びボタン（別タブ開き）を配置。
   - 左：**Kew POWO**（`https://powo.science.kew.org/`）
   - 右：**OrchidRoots**（`https://orchidroots.com/`）
