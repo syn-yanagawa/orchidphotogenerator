@@ -284,8 +284,8 @@ body {
   border-radius: 0;
   background: var(--bg-box);
   color: var(--text-primary);
-  font-family: var(--font-ui);
-  font-size: 0.95rem;
+  font-family: var(--font-serif);
+  font-size: 0.98rem;
   transition: background-color 0.15s ease, box-shadow 0.15s ease;
 }
 
