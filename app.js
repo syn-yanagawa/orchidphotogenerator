@@ -123,7 +123,6 @@
     authorYearInput: document.getElementById('authorYearInput'),
     originInput: document.getElementById('originInput'),
     dateInput: document.getElementById('dateInput'),
-    todayButton: document.getElementById('todayButton'),
     resetButton: document.getElementById('resetButton'),
     templateButtons: Array.from(document.querySelectorAll('.template-card')),
     downloadPngButton: document.getElementById('downloadPngButton'),
@@ -687,12 +686,6 @@
     elements.canvas.addEventListener('pointerup', endDrag);
     elements.canvas.addEventListener('pointercancel', endDrag);
 
-    // 今日の日付入力ボタン
-    elements.todayButton.addEventListener('click', () => {
-      elements.dateInput.value = formatTodayEnglish();
-      renderPlate();
-    });
-
     // テンプレート切り替え
     elements.templateButtons.forEach((button) => {
       button.addEventListener('click', () => {
@@ -715,7 +708,7 @@
       elements.scientificNameInput.value = DEFAULT_VALUES.scientificName;
       elements.authorYearInput.value = DEFAULT_VALUES.authorYear;
       elements.originInput.value = DEFAULT_VALUES.origin;
-      elements.dateInput.value = DEFAULT_VALUES.date;
+      elements.dateInput.value = formatTodayEnglish();
 
       state.templateId = DEFAULT_VALUES.templateId;
       elements.templateButtons.forEach((btn) => {
@@ -751,6 +744,7 @@
 
   /** 初期化処理 */
   function init() {
+    elements.dateInput.value = formatTodayEnglish();
     bindEvents();
     loadBrandLogo();
     renderPlate();
