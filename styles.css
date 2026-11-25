@@ -407,6 +407,31 @@ body {
   box-shadow: 0 0 0 3px var(--focus-ring);
 }
 
+/* Herbarium Dark 用カラー反転ボタン */
+.template-card.is-dark {
+  background: #1a1918;
+  border-color: #2f2d2a;
+}
+
+.template-card.is-dark:hover {
+  background: #252422;
+  border-color: #4b4843;
+}
+
+.template-card.is-dark.is-active {
+  background: #141413;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent);
+}
+
+.template-card.is-dark .template-name {
+  color: #f5f1ea;
+}
+
+.template-card.is-dark .template-desc {
+  color: #b8b1a6;
+}
+
 .template-name {
   font-family: var(--font-serif);
   font-size: 0.9rem;
