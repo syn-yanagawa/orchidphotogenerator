@@ -47,7 +47,7 @@
     originValue: '#0A0A0A',
     date: '#1A1A1A',
     photoBorder: null,
-    logoTint: null, // アイボリー背景では元の深緑ロゴをそのまま使用
+    logoTint: '#111111', // アイボリー背景では黒ロゴに統一
     placeholderBg: '#231E26',
     placeholderText: 'rgba(245, 241, 240, 0.65)'
   };
@@ -438,9 +438,9 @@
     if (!state.showLogo || !state.logoImage) return;
 
     const logo = state.logoImage;
-    // 日付の文字高さと自然に釣り合うさりげない極小サイズ（基準幅 64px）
-    const baseWidth = dateWidth > 0 ? dateWidth * 0.3 : 64;
-    const targetWidth = Math.min(72, Math.max(56, Math.round(baseWidth)));
+    // 日付のラインに上品に収まるサイズ（日付幅の約50%、基準110px）
+    const baseWidth = dateWidth > 0 ? dateWidth * 0.5 : 110;
+    const targetWidth = Math.min(130, Math.max(88, Math.round(baseWidth)));
     const targetHeight = Math.round(targetWidth * (logo.naturalHeight / logo.naturalWidth));
 
     // 写真フレーム右端に揃え、ロゴの文字ベースライン（yのディセンダー除く約72%位置）を日付ライン(1954)に合わせる
