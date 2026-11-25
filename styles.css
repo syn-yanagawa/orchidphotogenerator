@@ -6,22 +6,22 @@
 :root {
   --bg-page: #ffffff;
   --bg-surface: #ffffff;
-  --bg-box: #f4f2ee;
-  --bg-box-hover: #eae6e0;
-  --border-color: #e4dfd8;
-  --border-strong: #cfc7bc;
+  --bg-box: #eef1f5;
+  --bg-box-hover: #e3e8ef;
+  --border-color: #e2e6ec;
+  --border-strong: #c8d0da;
   --text-primary: #1d1b19;
-  --text-secondary: #5e5851;
-  --text-muted: #8a8278;
+  --text-secondary: #585c63;
+  --text-muted: #7f8690;
   --accent: #2f4a3c;
   --accent-hover: #23382d;
-  --accent-soft: #eaf0ec;
+  --accent-soft: #e7efe9;
   --focus-ring: rgba(47, 74, 60, 0.28);
   --shadow-plate: 0 18px 44px rgba(20, 16, 12, 0.14);
   --radius-md: 0px;
   --radius-sm: 0px;
-  --font-ui: "Shippori Mincho", "Hiragino Mincho ProN", "Yu Mincho", serif;
-  --font-serif: "Shippori Mincho", "Times New Roman", Times, Georgia, serif;
+  --font-ui: "Helvetica Neue", Helvetica, Arial, "Zen Kaku Gothic New", sans-serif;
+  --font-serif: "Times New Roman", Times, Georgia, serif;
 }
 
 *,
@@ -95,10 +95,10 @@ body {
 
 .brand-title {
   margin: 0;
-  font-family: var(--font-serif);
-  font-size: 1.45rem;
+  font-family: var(--font-ui);
+  font-size: 1.4rem;
   font-weight: 700;
-  letter-spacing: 0.01em;
+  letter-spacing: -0.01em;
   line-height: 1.2;
 }
 
@@ -289,8 +289,8 @@ body {
   border-radius: 0;
   background: var(--bg-box);
   color: var(--text-primary);
-  font-family: var(--font-serif);
-  font-size: 0.98rem;
+  font-family: var(--font-ui);
+  font-size: 0.95rem;
   transition: background-color 0.15s ease, box-shadow 0.15s ease;
 }
 

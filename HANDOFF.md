@@ -58,9 +58,9 @@
 | `helvetica-dark` | Herbarium Dark | Helvetica | 背景 `#141413` / 暗帯 `#1F1E1C` | Helvetica | `0.92` |
 
 ### サイトUIデザイン仕様
-- **配色・形状**: ページ背景は純白（`#ffffff`）。テキストボックス・ドロップゾーン・ボタン・テンプレートカード・プレビュー枠の角丸はすべて**直角（`0px`）**、縁のボーダーなし。各ボックス内の背景色は薄いウォームグレー（`#f4f2ee`）。
+- **配色・形状**: ページ背景は純白（`#ffffff`）。テキストボックス・ドロップゾーン・ボタン・テンプレートカード・プレビュー枠の角丸はすべて**直角（`0px`）**、縁のボーダーなし。各ボックス・テキストボックス内の背景色は青寄りのクールグレー（`#eef1f5`）。
 - **テンプレートボタン**: スウォッチアイコンなし。`Herbarium Dark` の2ボタンはダーク背景（`#1a1918`）×オフホワイト文字（`#f5f1ea`）にカラー反転。選択中は内側にアクセントカラーのリングを表示。
-- **サイト側フォント**: Google Fonts の **Shippori Mincho** を全体に適用（※ Canvas生成画像内の Times New Roman / Helvetica、および Helvetica テンプレートカード内の表記 `.is-sans` は維持）。
+- **サイト側フォント**: 欧文 **Helvetica**（`"Helvetica Neue", Helvetica, Arial`）＋ 和文 **Zen Kaku Gothic New（ゼンカクゴシック）** の混植を UI 全体に適用（※ Canvas 生成画像内の Times New Roman / Helvetica、およびテンプレートカードの Times New Roman 表示は維持）。
 - **参考サイトリンク**: 「2. 種の情報」の下部に `参考サイト` 見出し＋横並びボタン（別タブ開き）を配置。
   - 左：**Kew POWO**（`https://powo.science.kew.org/`）
   - 右：**OrchidRoots**（`https://orchidroots.com/`）
@@ -125,7 +125,7 @@ git push origin main
 - **現在の状態**:
   - 4テンプレート（Classic Ivory / Herbarium Dark × Times New Roman / Helvetica）実装済み
   - `syn.` ロゴ（日付ライン右端・黒/オフホワイト自動着色・常時表示）＆下部テキストのゆとりレイアウト調整済み
-  - サイトUIを純白背景・直角ボーダーレス・薄グレー面・Shippori Mincho に刷新済み
+  - サイトUIを純白背景・直角ボーダーレス・青寄りグレー面（`#eef1f5`）・欧文 Helvetica ＋ 和文 Zen Kaku Gothic New に刷新済み
   - 「2. 種の情報」の見出し英語化（Taxonomy / Species Name / Author & Year / Native to / Date）＋日本語補足化、および参考サイトリンク（Kew POWO / OrchidRoots）設置済み
   - GitHub Pages 公開・同期済み
 - **次の予定**: 追加の細かいデザイン調整・機能追加があれば順次反映していくフェーズ。
