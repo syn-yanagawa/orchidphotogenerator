@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Botanical Plate Generator — 植物図鑑画像ジェネレータ</title>
-  <link rel="stylesheet" href="styles.css?v=20261126-11">
+  <link rel="stylesheet" href="styles.css?v=20261126-12">
 </head>
 <body>
   <div class="app-shell">
@@ -52,8 +52,18 @@
               <span id="zoomValue" class="control-value">100%</span>
             </div>
             <div class="control-actions">
-              <span class="control-hint">※ 右のプレビュー画像をドラッグすると位置を微調整できます</span>
-              <button type="button" id="resetCropButton" class="btn btn-text">位置をリセット</button>
+              <div class="control-action-buttons">
+                <button
+                  type="button"
+                  id="toggleDragModeButton"
+                  class="btn btn-toggle"
+                  aria-pressed="false"
+                >
+                  位置調整: OFF
+                </button>
+                <button type="button" id="resetCropButton" class="btn btn-text">位置をリセット</button>
+              </div>
+              <span class="control-hint">※ スマホでは「位置調整」をONにすると指で位置調整できます（PCは常時ドラッグ可）</span>
             </div>
           </div>
         </div>
@@ -272,8 +282,8 @@
     </div>
   </div>
 
-  <script src="logo-data.js?v=20261126-11"></script>
-  <script src="sample-image-data.js?v=20261126-11"></script>
-  <script src="app.js?v=20261126-11"></script>
+  <script src="logo-data.js?v=20261126-12"></script>
+  <script src="sample-image-data.js?v=20261126-12"></script>
+  <script src="app.js?v=20261126-12"></script>
 </body>
 </html>

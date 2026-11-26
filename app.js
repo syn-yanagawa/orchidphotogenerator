@@ -102,6 +102,7 @@
     offsetX: 0, // キャンバス座標系での水平オフセット
     offsetY: 0, // キャンバス座標系での垂直オフセット
     templateId: DEFAULT_VALUES.templateId,
+    isTouchDragEnabled: false,
     isDragging: false,
     dragStartX: 0,
     dragStartY: 0,
@@ -118,6 +119,7 @@
     imageControls: document.getElementById('imageControls'),
     zoomSlider: document.getElementById('zoomSlider'),
     zoomValue: document.getElementById('zoomValue'),
+    toggleDragModeButton: document.getElementById('toggleDragModeButton'),
     resetCropButton: document.getElementById('resetCropButton'),
     taxonomyInput: document.getElementById('taxonomyInput'),
     scientificNameInput: document.getElementById('scientificNameInput'),
@@ -543,6 +545,7 @@
         state.zoom = 1;
         state.offsetX = 0;
         state.offsetY = 0;
+        setTouchDragMode(false);
 
         elements.fileStatusText.textContent = `選択中: ${file.name}`;
         elements.imageControls.hidden = false;
@@ -620,6 +623,26 @@
   }
 
   /**
+   * タッチデバイスでの位置調整モード（ドラッグ有効/無効）を切り替える
+   * @param {boolean} enabled - true でタッチドラッグ有効、false で通常スクロール優先
+   */
+  function setTouchDragMode(enabled) {
+    state.isTouchDragEnabled = Boolean(enabled);
+    elements.canvas.classList.toggle('is-touch-drag-enabled', state.isTouchDragEnabled);
+    const canvasFrame = elements.canvas.parentElement;
+    if (canvasFrame) {
+      canvasFrame.classList.toggle('is-touch-drag-enabled', state.isTouchDragEnabled);
+    }
+    if (elements.toggleDragModeButton) {
+      elements.toggleDragModeButton.classList.toggle('is-active', state.isTouchDragEnabled);
+      elements.toggleDragModeButton.setAttribute('aria-pressed', String(state.isTouchDragEnabled));
+      elements.toggleDragModeButton.textContent = state.isTouchDragEnabled
+        ? '位置調整: ON'
+        : '位置調整: OFF';
+    }
+  }
+
+  /**
    * イベントリスナーを初期化する
    */
   function bindEvents() {
@@ -675,6 +698,13 @@
       renderPlate();
     });
 
+    // タッチ位置調整モードの切り替え
+    if (elements.toggleDragModeButton) {
+      elements.toggleDragModeButton.addEventListener('click', () => {
+        setTouchDragMode(!state.isTouchDragEnabled);
+      });
+    }
+
     // 構図リセット
     elements.resetCropButton.addEventListener('click', () => {
       state.zoom = 1;
@@ -686,8 +716,10 @@
     });
 
     // プレビューキャンバス上でのドラッグによる写真位置調整
+    // （タッチ操作は「位置調整」ON時のみ有効にし、通常時はページスクロールを優先）
     elements.canvas.addEventListener('pointerdown', (event) => {
       if (!state.image) return;
+      if (event.pointerType === 'touch' && !state.isTouchDragEnabled) return;
       state.isDragging = true;
       state.dragStartX = event.clientX;
       state.dragStartY = event.clientY;
