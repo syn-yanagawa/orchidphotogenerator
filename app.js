@@ -95,6 +95,7 @@
   /** アプリケーション状態 */
   const state = {
     image: null,
+    sampleImage: null,
     logoImage: null,
     fileName: '',
     zoom: 1,
@@ -218,21 +219,52 @@
       ctx.imageSmoothingQuality = 'high';
       ctx.drawImage(state.image, drawX, drawY, drawWidth, drawHeight);
     } else {
-      // 画像未アップロード時の落ち着いたプレースホルダー背景
-      const gradient = ctx.createLinearGradient(x, y, x + width, y + height);
-      gradient.addColorStop(0, theme.placeholderBg);
-      gradient.addColorStop(1, '#141117');
-      ctx.fillStyle = gradient;
-      ctx.fillRect(x, y, width, height);
+      // 画像未アップロード時：サンプル写真に軽いブラーをかけて表示し、ガイドを重ねる
+      if (state.sampleImage) {
+        const sample = state.sampleImage;
+        const blurRadius = 10;
+        const bleed = blurRadius * 3; // ブラーによる端の透けを防ぐ余白
+        const targetW = width + bleed * 2;
+        const targetH = height + bleed * 2;
+        const scale = Math.max(targetW / sample.naturalWidth, targetH / sample.naturalHeight);
+        const drawW = sample.naturalWidth * scale;
+        const drawH = sample.naturalHeight * scale;
+        const drawX = x + (width - drawW) / 2;
+        const drawY = y + (height - drawH) / 2;
 
-      // 中央ガイドメッセージ
-      ctx.fillStyle = theme.placeholderText;
+        ctx.save();
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+        ctx.filter = `blur(${blurRadius}px)`;
+        ctx.drawImage(sample, drawX, drawY, drawW, drawH);
+        ctx.restore();
+
+        // ガイド文字が読みやすくなるようごく薄い暗幕を重ねる
+        ctx.fillStyle = 'rgba(12, 10, 14, 0.28)';
+        ctx.fillRect(x, y, width, height);
+      } else {
+        // サンプル画像読み込み前のフォールバック背景
+        const gradient = ctx.createLinearGradient(x, y, x + width, y + height);
+        gradient.addColorStop(0, theme.placeholderBg);
+        gradient.addColorStop(1, '#141117');
+        ctx.fillStyle = gradient;
+        ctx.fillRect(x, y, width, height);
+      }
+
+      // 中央ガイドメッセージ（サンプル画像の上に被せて表示）
+      ctx.save();
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
+      ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+      ctx.shadowBlur = 18;
+      ctx.shadowOffsetY = 2;
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.94)';
       ctx.font = `italic ${Math.round(48 * theme.fontScale)}px ${theme.fontFamily}`;
       ctx.fillText('Upload a botanical photograph', x + width / 2, y + height / 2 - 28);
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.86)';
       ctx.font = `${Math.round(28 * theme.fontScale)}px ${theme.fontFamily}`;
-      ctx.fillText('左パネルから画像をアップロードしてください', x + width / 2, y + height / 2 + 34);
+      ctx.fillText('画像をアップロードしてください', x + width / 2, y + height / 2 + 34);
+      ctx.restore();
     }
 
     ctx.restore();
@@ -737,11 +769,25 @@
     img.src = logoSrc;
   }
 
+  /**
+   * 初期プレビュー用のサンプル写真を読み込む
+   */
+  function loadSampleImage() {
+    const sampleSrc = window.SAMPLE_ORCHID_DATA_URL || 'assets/sample-orchid.jpg';
+    const img = new Image();
+    img.onload = () => {
+      state.sampleImage = img;
+      renderPlate();
+    };
+    img.src = sampleSrc;
+  }
+
   /** 初期化処理 */
   function init() {
     elements.dateInput.value = formatTodayEnglish();
     bindEvents();
     loadBrandLogo();
+    loadSampleImage();
     renderPlate();
   }
 
