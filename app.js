@@ -126,7 +126,10 @@
     dateInput: document.getElementById('dateInput'),
     resetButton: document.getElementById('resetButton'),
     templateButtons: Array.from(document.querySelectorAll('.template-card')),
-    downloadJpgButton: document.getElementById('downloadJpgButton')
+    downloadJpgButton: document.getElementById('downloadJpgButton'),
+    disclaimerButton: document.getElementById('disclaimerButton'),
+    disclaimerModal: document.getElementById('disclaimerModal'),
+    disclaimerCloseButton: document.getElementById('disclaimerCloseButton')
   };
 
   const ctx = elements.canvas.getContext('2d');
@@ -754,6 +757,39 @@
     elements.downloadJpgButton.addEventListener('click', () => {
       downloadPlate('image/jpeg', 'jpg');
     });
+
+    // 免責事項・著作権ポップアップの開閉
+    if (elements.disclaimerButton && elements.disclaimerModal) {
+      const openModal = () => {
+        elements.disclaimerModal.hidden = false;
+        document.body.style.overflow = 'hidden';
+      };
+
+      const closeModal = () => {
+        elements.disclaimerModal.hidden = true;
+        document.body.style.overflow = '';
+      };
+
+      elements.disclaimerButton.addEventListener('click', openModal);
+
+      if (elements.disclaimerCloseButton) {
+        elements.disclaimerCloseButton.addEventListener('click', closeModal);
+      }
+
+      // 背景オーバーレイクリックで閉じる
+      elements.disclaimerModal.addEventListener('click', (event) => {
+        if (event.target === elements.disclaimerModal) {
+          closeModal();
+        }
+      });
+
+      // Escキーで閉じる
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && !elements.disclaimerModal.hidden) {
+          closeModal();
+        }
+      });
+    }
   }
 
   /**

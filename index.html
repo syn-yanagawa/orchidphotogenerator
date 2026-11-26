@@ -4,18 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Botanical Plate Generator — 植物図鑑画像ジェネレータ</title>
-  <link rel="stylesheet" href="styles.css?v=20261126-1">
+  <link rel="stylesheet" href="styles.css?v=20261126-10">
 </head>
 <body>
   <div class="app-shell">
     <!-- ヘッダー -->
     <header class="app-header">
-      <div class="brand">
+      <div class="brand-left">
         <img src="assets/syn-logo.png" alt="syn." class="brand-logo">
-        <div>
-          <h1 class="brand-title">Botanical Plate Generator</h1>
-          <p class="brand-subtitle">植物図鑑風画像ジェネレーター</p>
-        </div>
+      </div>
+      <div class="brand-text">
+        <h1 class="brand-title">Botanical Plate Generator</h1>
+        <p class="brand-subtitle">植物図鑑風画像ジェネレーター</p>
       </div>
     </header>
 
@@ -213,15 +213,67 @@
 
         <div class="export-bar">
           <button type="button" id="downloadJpgButton" class="btn btn-download">
-            Download
+            <span class="download-label">Download</span>
+            <span class="download-line" aria-hidden="true"></span>
+            <span class="download-meta">JPEG・1600×2000px</span>
           </button>
         </div>
       </section>
     </main>
+
+    <!-- フッター -->
+    <footer class="app-footer">
+      <p class="footer-copy">&copy; 2026 Synonym</p>
+      <button type="button" id="disclaimerButton" class="footer-link">
+        免責事項・著作権について
+      </button>
+    </footer>
   </div>
 
-  <script src="logo-data.js?v=20261126-2"></script>
-  <script src="sample-image-data.js?v=20261126-2"></script>
-  <script src="app.js?v=20261126-2"></script>
+  <!-- 免責事項・著作権ポップアップ -->
+  <div
+    id="disclaimerModal"
+    class="modal-overlay"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="disclaimerModalTitle"
+    hidden
+  >
+    <div class="modal-box">
+      <div class="modal-header">
+        <h2 id="disclaimerModalTitle" class="modal-title">免責事項・著作権について</h2>
+        <button type="button" id="disclaimerCloseButton" class="modal-close" aria-label="閉じる">
+          &times;
+        </button>
+      </div>
+      <div class="modal-body">
+        <section class="modal-section">
+          <h3>1. 画像データの取り扱い</h3>
+          <p>本サイトで選択された写真および入力されたテキストは、すべてお使いのブラウザ内でのみ処理されます。外部サーバーへの送信・保存は一切行いません。</p>
+        </section>
+        <section class="modal-section">
+          <h3>2. 著作権・権利処理について</h3>
+          <p>アップロードする写真や入力テキストの著作権・肖像権その他の権利については、利用者ご自身の責任において適切な確認・許諾を得た上でご使用ください。第三者の権利を侵害したことにより生じた紛争・損害について、運営者は一切の責任を負いません。</p>
+          <p>本サイトのレイアウトデザイン・ソースコードおよび「syn.」ロゴに関する権利は運営者に帰属します。</p>
+        </section>
+        <section class="modal-section">
+          <h3>3. 生成画像の利用について</h3>
+          <p>利用者ご自身が正当な権利を有する写真を用いて生成した画像は、SNS への投稿や個人的な記録・鑑賞目的で自由にご利用いただけます。ただし、本サイト自体やロゴ単体の無断転載・再配布、ならびにロゴの悪用はお控えください。</p>
+        </section>
+        <section class="modal-section">
+          <h3>4. 学名・分類情報および外部リンク</h3>
+          <p>初期サンプルの分類情報および参考サイトリンク（Kew POWO / OrchidRoots）は入力補助のためのものであり、最新の学術的正確性を保証するものではありません。外部サイトの利用により生じた損害についても責任を負いません。</p>
+        </section>
+        <section class="modal-section">
+          <h3>5. 免責事項</h3>
+          <p>本サイトの利用または利用不能によって生じたいかなる損害についても、運営者は一切の責任を負いません。また、本サイトは予告なく仕様の変更・公開の中断または終了を行う場合があります。</p>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <script src="logo-data.js?v=20261126-10"></script>
+  <script src="sample-image-data.js?v=20261126-10"></script>
+  <script src="app.js?v=20261126-10"></script>
 </body>
 </html>

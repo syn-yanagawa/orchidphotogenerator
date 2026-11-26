@@ -61,17 +61,18 @@
 | `helvetica-dark` | Herbarium Dark | Helvetica | 背景 `#141413` / 暗帯 `#1F1E1C` | Helvetica | `0.92` |
 
 ### サイトUIデザイン仕様
-- **ヘッダー**: 左に `syn.` ロゴ（`assets/syn-logo.png`、高さ `28px`）、タイトル `Botanical Plate Generator`、サブタイトル `植物図鑑風画像ジェネレーター` のみのシンプル構成。
+- **ヘッダー**: PC・タブレットは3カラム構成（`grid-template-columns: 1fr auto 1fr`）。左に緑色の `syn.` ロゴ（`assets/syn-logo.png`・高さ `20px`）、中央にタイトル `Botanical Plate Generator`（`Times New Roman` Regular Italic・`0.98rem`・字間 `0.12em`）とサブタイトル `植物図鑑風画像ジェネレーター`（`0.56rem`・字間 `0.14em`）。モバイル（幅 `640px` 以下）ではロゴ左・タイトル＆サブタイトル右寄せ。
 - **リセット導線**: 「2. 種の情報」見出しの右端に `初期サンプルに戻す` ボタン（青寄りグレー背景・直角）を配置（プレビュー下の出力サイズテキストは削除済み）。
-- **配色・形状**: ページ背景は純白（`#ffffff`）。テキストボックス・ドロップゾーン・ボタン・テンプレートカード・プレビュー枠の角丸はすべて**直角（`0px`）**、縁のボーダーなし。各ボックス・テキストボックス内の背景色は青寄りのクールグレー（`#eef1f5`）。
-- **テンプレートボタン**: スウォッチアイコン・書体名サブラベルなし、テンプレート名のみ中央揃え（上段 Times New Roman / 下段 Helvetica の書体で判別）。`Herbarium Dark` の2ボタンはダーク背景（`#1a1918`）×オフホワイト文字（`#f5f1ea`）にカラー反転。選択中は白い余白を挟んだオフセット黒フレーム（`0 0 0 2px #ffffff, 0 0 0 3.5px #141413`）を表示。
-- **サイト側フォント・余白**: 欧文 **Helvetica**（`"Helvetica Neue", Helvetica, Arial`）＋ 和文 **游ゴシック**（`"Yu Gothic", "YuGothic"`）の混植を UI 全体に適用（※ 「2. 種の情報」のテキストボックス内、Canvas 生成画像内の Times New Roman / Helvetica、およびテンプレートカードの Times New Roman 表示は維持）。ヘッダーを除いたメイン領域（`.workspace`）はゆったりとした字間（`letter-spacing: 0.06em` 基準）・行間（`line-height: 1.85`）・広めの要素間余白を設定。
+- **配色・形状**: ページ背景は純白（`#ffffff`）。テキストボックス・ドロップゾーン・ボタン・テンプレートカード・プレビュー枠の角丸はすべて**直角（`0px`）**、縁のボーダーなし。各ボックス・テキストボックス内の背景色は青寄りのクールグレー（`#eef1f5`）。UI アクセントカラーはスレートチャコール系（`--accent: #2c3138` / `--accent-hover: #141413`）に統一し、緑色はヘッダーの `syn.` ロゴのみに限定。
+- **テンプレートボタン**: スウォッチアイコン・書体名サブラベルなし、テンプレート名のみ中央揃え（`0.64rem`・Regular、Times New Roman 字間 `0.08em` / Helvetica 字間 `0.065em`）。`Herbarium Dark` の2ボタンはダーク背景（`#1a1918`）×オフホワイト文字（`#f5f1ea`）にカラー反転。選択中は白い余白を挟んだオフセット黒フレーム（`0 0 0 2px #ffffff, 0 0 0 3.5px #141413`）を表示。
+- **サイト側フォント・余白**: 基本 UI は欧文 **Helvetica** ＋ 和文 **游ゴシック** の混植、テキストボックス内の学名（`.font-serif-italic` の Bold Italic）を除きサイト UI 側のウェイトはすべて **Regular（`400`）** に統一。欧文見出し・リンク・ボタン（`Taxonomy` 等の `.field-label`、`Kew POWO` / `OrchidRoots`、`Download` ボタン）は **Times New Roman Regular Italic** を適用（`.field-note` の日本語補足はゴシック体・立体を維持）。メイン領域（`.workspace`）はゆったりとした字間（`letter-spacing: 0.06em` 基準）・行間（`line-height: 1.85`）・広めの要素間余白を設定。
 - **参考サイトリンク**: 「2. 種の情報」の下部に `参考サイト` 見出し＋横並びボタン（別タブ開き）を配置。
   - 左：**Kew POWO**（`https://powo.science.kew.org/`）
   - 右：**OrchidRoots**（`https://orchidroots.com/`）
+- **フッター＆免責事項ポップアップ**: 游ゴシック Regular・`0.72rem` で `© 2026 Synonym` と「免責事項・著作権について」リンクを配置。クリックでサイト全体の明度を下げる暗幕オーバーレイ（`rgba(15, 16, 18, 0.56)`）の上に半透明の直角すりガラスボックスを表示（`×` ボタン・背景クリック・`Esc` キーで閉じる）。
 
 ### 出力機能
-- **JPEG ダウンロードのみ**（品質 `0.94`、黒ボックス `#141413` ＋ 白文字の `Download` ボタン1つ）
+- **JPEG ダウンロードのみ**（品質 `0.94`、黒ボックス `#141413` 内に `Download` — `56px` 水平ボーダー — `JPEG・1600×2000px` を中央揃え・Times New Roman Regular Italic で配置）
 - ファイル名は学名から自動生成（例: `Cattleya_maxima.jpg`）
 
 ---
@@ -132,5 +133,6 @@ git push origin main
   - サイトUIを純白背景・直角ボーダーレス・青寄りグレー面（`#eef1f5`）・欧文 Helvetica ＋ 和文 游ゴシック に刷新済み
   - 「2. 種の情報」の見出し英語化（Taxonomy / Species Name / Author & Year / Native to / Date）＋日本語補足化、および参考サイトリンク（Kew POWO / OrchidRoots）設置済み
   - 画像未アップロード時のプレビューにサンプル蘭写真（軽いブラー＋ガイドテキスト重ね表示）を組み込み済み
+  - UI 全体のレギュラー化・スレートチャコール統一・ヘッダー中央配置（モバイル右寄せ）・欧文 Times New Roman Regular Italic 化・ダウンロードボタン刷新・フッター（`© 2026 Synonym`）＆免責事項ポップアップ実装済み
   - GitHub Pages 公開・同期済み
 - **次の予定**: 追加の細かいデザイン調整・機能追加があれば順次反映していくフェーズ。
