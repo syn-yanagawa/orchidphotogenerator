@@ -674,13 +674,19 @@
   }
 
   /**
-   * 共有時のキャプション文字列（学名＋記載者）を組み立てる
-   * @returns {string}
+   * 共有時のタイトル（学名＋記載者）とハッシュタグ付きキャプションを組み立てる
+   * @returns {{ title: string, text: string }}
    */
-  function buildShareCaption() {
+  function buildShareContent() {
     const scientificName = elements.scientificNameInput.value.trim();
     const authorYear = elements.authorYearInput.value.trim();
-    return [scientificName, authorYear].filter(Boolean).join(' ');
+    const headline = [scientificName, authorYear].filter(Boolean).join(' ');
+    const hashtags = '#botanicalplategenerator\n#synonym';
+    const text = headline ? `${headline}\n\n${hashtags}` : hashtags;
+    return {
+      title: headline || 'Botanical Plate Generator',
+      text
+    };
   }
 
   /**
@@ -717,13 +723,12 @@
       try {
         const blob = await canvasToBlob('image/jpeg', 0.94);
         const file = new File([blob], buildDownloadFileName('jpg'), { type: 'image/jpeg' });
-        const caption = buildShareCaption();
-        const sharePayload = { files: [file] };
-        if (caption) {
-          sharePayload.title = caption;
-          sharePayload.text = caption;
-        }
-        await navigator.share(sharePayload);
+        const { title, text } = buildShareContent();
+        await navigator.share({
+          files: [file],
+          title,
+          text
+        });
       } catch (error) {
         // ユーザーが共有シートを閉じた場合（AbortError）は正常終了として扱う
         if (error && error.name !== 'AbortError') {
