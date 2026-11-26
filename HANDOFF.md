@@ -55,16 +55,16 @@
 ### 4種類のデザインテンプレート（配色 × 書体）
 | テンプレートID | ボタン表示名 | 書体ラベル | 配色 | 書体 | サイズ補正 (`fontScale`) |
 | --- | --- | --- | --- | --- | --- |
-| `classic-ivory`（デフォルト） | Classic Ivory | Times New Roman | 背景 `#F5F1F0` / 白帯 `#FFFFFF` | Times New Roman | `1.0` |
-| `herbarium-dark` | Herbarium Dark | Times New Roman | 背景 `#141413` / 暗帯 `#1F1E1C` | Times New Roman | `1.0` |
-| `helvetica-ivory` | Classic Ivory | Helvetica | 背景 `#F5F1F0` / 白帯 `#FFFFFF` | Helvetica | `0.92` |
-| `helvetica-dark` | Herbarium Dark | Helvetica | 背景 `#141413` / 暗帯 `#1F1E1C` | Helvetica | `0.92` |
+| `classic-ivory`（デフォルト） | Ivory | Times New Roman | 背景 `#F5F1F0` / 白帯 `#FFFFFF` | Times New Roman | `1.0` |
+| `helvetica-ivory` | Ivory | Helvetica | 背景 `#F5F1F0` / 白帯 `#FFFFFF` | Helvetica | `0.92` |
+| `herbarium-dark` | Dark | Times New Roman | 背景 `#141413` / 暗帯 `#1F1E1C` | Times New Roman | `1.0` |
+| `helvetica-dark` | Dark | Helvetica | 背景 `#141413` / 暗帯 `#1F1E1C` | Helvetica | `0.92` |
 
 ### サイトUIデザイン仕様
 - **ヘッダー**: PC・タブレットは3カラム構成（`grid-template-columns: 1fr auto 1fr`）。左に緑色の `syn.` ロゴ（`assets/syn-logo.png`・高さ `20px`）、中央にタイトル `Botanical Plate Generator`（`Times New Roman` Regular Italic・`0.98rem`・字間 `0.12em`）とサブタイトル `植物図鑑風画像ジェネレーター`（`0.56rem`・字間 `0.14em`）。モバイル（幅 `640px` 以下）ではロゴ左・タイトル＆サブタイトル右寄せ。
 - **リセット導線**: 「2. 種の情報」見出しの右端に `初期サンプルに戻す` ボタン（青寄りグレー背景・直角）を配置（プレビュー下の出力サイズテキストは削除済み）。
 - **配色・形状**: ページ背景は純白（`#ffffff`）。テキストボックス・ドロップゾーン・ボタン・テンプレートカード・プレビュー枠の角丸はすべて**直角（`0px`）**、縁のボーダーなし。各ボックス・テキストボックス内の背景色は青寄りのクールグレー（`#eef1f5`）。UI アクセントカラーはスレートチャコール系（`--accent: #2c3138` / `--accent-hover: #141413`）に統一し、緑色はヘッダーの `syn.` ロゴのみに限定。
-- **テンプレートボタン**: スウォッチアイコン・書体名サブラベルなし、テンプレート名のみ中央揃え（`0.64rem`・Regular、Times New Roman 字間 `0.08em` / Helvetica 字間 `0.065em`）。`Herbarium Dark` の2ボタンはダーク背景（`#1a1918`）×オフホワイト文字（`#f5f1ea`）にカラー反転。選択中は白い余白を挟んだオフセット黒フレーム（`0 0 0 2px #ffffff, 0 0 0 3.5px #141413`）を表示。
+- **テンプレートボタン**: 上段に `Ivory`（左: Times New Roman / 右: Helvetica）、下段に `Dark`（左: Times New Roman / 右: Helvetica）の2×2配置。スウォッチアイコン・書体名サブラベルなし、`0.84rem`・Regular・中央揃え（Times New Roman 字間 `0.08em` / Helvetica 字間 `0.065em`）。`Dark` の2ボタンはダーク背景（`#1a1918`）×オフホワイト文字（`#f5f1ea`）にカラー反転。選択中は白い余白を挟んだオフセット黒フレーム（`0 0 0 2px #ffffff, 0 0 0 3.5px #141413`）を表示。
 - **サイト側フォント・余白**: 基本 UI は欧文 **Helvetica** ＋ 和文 **游ゴシック** の混植、テキストボックス内の学名（`.font-serif-italic` の Bold Italic）を除きサイト UI 側のウェイトはすべて **Regular（`400`）** に統一。欧文見出し・リンク・ボタン（`Taxonomy` 等の `.field-label`、`Kew POWO` / `OrchidRoots`、`Download` ボタン）は **Times New Roman Regular Italic** を適用（`.field-note` の日本語補足はゴシック体・立体を維持）。メイン領域（`.workspace`）はゆったりとした字間（`letter-spacing: 0.06em` 基準）・行間（`line-height: 1.85`）・広めの要素間余白を設定。
 - **参考サイトリンク**: 「2. 種の情報」の下部に `参考サイト` 見出し＋横並びボタン（別タブ開き）を配置。
   - 左：**Kew POWO**（`https://powo.science.kew.org/`）

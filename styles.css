@@ -445,7 +445,7 @@ body {
 
 .template-name {
   font-family: var(--font-serif);
-  font-size: 0.64rem;
+  font-size: 0.84rem;
   font-weight: 400;
   letter-spacing: 0.08em;
   color: var(--text-primary);
