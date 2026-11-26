@@ -134,7 +134,12 @@
     shareMeta: document.getElementById('shareMeta'),
     disclaimerButton: document.getElementById('disclaimerButton'),
     disclaimerModal: document.getElementById('disclaimerModal'),
-    disclaimerCloseButton: document.getElementById('disclaimerCloseButton')
+    disclaimerCloseButton: document.getElementById('disclaimerCloseButton'),
+    guideButton: document.getElementById('guideButton'),
+    guideModal: document.getElementById('guideModal'),
+    guideCloseButton: document.getElementById('guideCloseButton'),
+    guideTabs: Array.from(document.querySelectorAll('.guide-tab')),
+    guidePanels: Array.from(document.querySelectorAll('.guide-panel'))
   };
 
   const ctx = elements.canvas.getContext('2d');
@@ -961,6 +966,58 @@
         if (event.key === 'Escape' && !elements.disclaimerModal.hidden) {
           closeModal();
         }
+      });
+    }
+
+    // 種情報の調べ方ポップアップの開閉・タブ切り替え
+    if (elements.guideButton && elements.guideModal) {
+      const openGuideModal = () => {
+        elements.guideModal.hidden = false;
+        document.body.style.overflow = 'hidden';
+      };
+
+      const closeGuideModal = () => {
+        elements.guideModal.hidden = true;
+        document.body.style.overflow = '';
+      };
+
+      elements.guideButton.addEventListener('click', openGuideModal);
+
+      if (elements.guideCloseButton) {
+        elements.guideCloseButton.addEventListener('click', closeGuideModal);
+      }
+
+      // 背景オーバーレイクリックで閉じる
+      elements.guideModal.addEventListener('click', (event) => {
+        if (event.target === elements.guideModal) {
+          closeGuideModal();
+        }
+      });
+
+      // Escキーで閉じる
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && !elements.guideModal.hidden) {
+          closeGuideModal();
+        }
+      });
+
+      // Kew POWO / OrchidRoots タブ切り替え
+      elements.guideTabs.forEach((tab) => {
+        tab.addEventListener('click', () => {
+          const targetKey = tab.dataset.guideTab;
+          elements.guideTabs.forEach((btn) => {
+            const isSelected = btn === tab;
+            btn.classList.toggle('is-active', isSelected);
+            btn.setAttribute('aria-selected', String(isSelected));
+          });
+          elements.guidePanels.forEach((panel) => {
+            panel.hidden = panel.dataset.guidePanel !== targetKey;
+          });
+          const modalBox = elements.guideModal.querySelector('.modal-box');
+          if (modalBox) {
+            modalBox.scrollTop = 0;
+          }
+        });
       });
     }
   }

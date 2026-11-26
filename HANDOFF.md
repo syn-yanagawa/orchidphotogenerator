@@ -26,6 +26,7 @@
 | `assets/syn-logo.png` | ブランドロゴ（`syn.`）原本画像（透過PNG） |
 | `sample-image-data.js` | 初期プレビュー用サンプル写真（蘭）の埋め込みData URL（ローカル `file://` 直開きでのCORS書き出しエラー防止） |
 | `assets/sample-orchid.jpg` | 初期プレビュー用サンプル写真（蘭）原本画像（JPEG） |
+| `assets/guide-*.jpg` | 「種情報の調べ方」ガイドポップアップ用スクリーンショット（Kew POWO 4枚 / OrchidRoots 2枚） |
 | `HANDOFF.md` | 本ドキュメント（引き継ぎ資料） |
 
 ---
@@ -67,7 +68,7 @@
 - **配色・形状**: ページ背景は純白（`#ffffff`）。テキストボックス・ドロップゾーン・ボタン・テンプレートカード・プレビュー枠の角丸はすべて**直角（`0px`）**、縁のボーダーなし。各ボックス・テキストボックス内の背景色は青寄りのクールグレー（`#eef1f5`）。UI アクセントカラーはスレートチャコール系（`--accent: #2c3138` / `--accent-hover: #141413`）に統一し、緑色はヘッダーの `syn.` ロゴのみに限定。
 - **テンプレートボタン**: 上段に `Ivory`（左: Times New Roman / 右: Helvetica）、下段に `Dark`（左: Times New Roman / 右: Helvetica）の2×2配置。スウォッチアイコン・書体名サブラベルなし、`0.84rem`・Regular・中央揃え（Times New Roman 字間 `0.08em` / Helvetica 字間 `0.065em`）。`Dark` の2ボタンはダーク背景（`#1a1918`）×オフホワイト文字（`#f5f1ea`）にカラー反転。選択中は白い余白を挟んだオフセット黒フレーム（`0 0 0 2px #ffffff, 0 0 0 3.5px #141413`）を表示。
 - **サイト側フォント・余白**: 基本 UI は欧文 **Helvetica** ＋ 和文 **游ゴシック** の混植、テキストボックス内の学名（`.font-serif-italic` の Bold Italic）を除きサイト UI 側のウェイトはすべて **Regular（`400`）** に統一。欧文見出し・リンク・ボタン（`Taxonomy` 等の `.field-label`、`Kew POWO` / `OrchidRoots`、`Download` ボタン）は **Times New Roman Regular Italic** を適用（`.field-note` の日本語補足はゴシック体・立体を維持）。メイン領域（`.workspace`）はゆったりとした字間（`letter-spacing: 0.06em` 基準）・行間（`line-height: 1.85`）・広めの要素間余白を設定。
-- **参考サイトリンク**: 「2. 種の情報」の下部に `参考サイト` 見出し＋横並びボタン（別タブ開き）を配置。
+- **参考サイトリンク＆調べ方ガイド**: 「2. 種の情報」の下部に `参考サイト` 見出し＋横並びボタン（別タブ開き）を配置し、その下に `種情報の調べ方` ボタンを設置。クリックで免責事項と同じすりガラスポップアップが開き、`Kew POWO` / `OrchidRoots` のタブ切り替えでスクリーンショット付きの手順を確認できる。
   - 左：**Kew POWO**（`https://powo.science.kew.org/`）
   - 右：**OrchidRoots**（`https://orchidroots.com/`）
 - **フッター＆免責事項ポップアップ**: 游ゴシック Regular・`0.72rem` で `© 2026 Synonym` と「免責事項・著作権について」リンクを配置。クリックでサイト全体の明度を下げる暗幕オーバーレイ（`rgba(15, 16, 18, 0.56)`）の上に半透明の直角すりガラスボックスを表示（`×` ボタン・背景クリック・`Esc` キーで閉じる）。

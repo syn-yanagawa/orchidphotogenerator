@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Botanical Plate Generator — 植物図鑑画像ジェネレータ</title>
-  <link rel="stylesheet" href="styles.css?v=20261126-13">
+  <link rel="stylesheet" href="styles.css?v=20261126-15">
 </head>
 <body>
   <div class="app-shell">
@@ -185,6 +185,9 @@
                 </svg>
               </a>
             </div>
+            <button type="button" id="guideButton" class="guide-open-btn">
+              種情報の調べ方
+            </button>
           </div>
         </div>
 
@@ -287,8 +290,110 @@
     </div>
   </div>
 
-  <script src="logo-data.js?v=20261126-14"></script>
-  <script src="sample-image-data.js?v=20261126-14"></script>
-  <script src="app.js?v=20261126-14"></script>
+  <!-- 種情報の調べ方ポップアップ -->
+  <div
+    id="guideModal"
+    class="modal-overlay"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="guideModalTitle"
+    hidden
+  >
+    <div class="modal-box modal-box-wide">
+      <div class="modal-header">
+        <h2 id="guideModalTitle" class="modal-title">種情報の調べ方</h2>
+        <button type="button" id="guideCloseButton" class="modal-close" aria-label="閉じる">
+          &times;
+        </button>
+      </div>
+      <div class="modal-body">
+        <p class="guide-lead">
+          各参考サイトの検索ボックスに学名（例: <em>Cattleya maxima</em>）を入力すると、記載者・記載年・原産国・分類情報を確認できます。
+        </p>
+
+        <!-- サイト切り替えタブ -->
+        <div class="guide-tabs" role="tablist" aria-label="参考サイトの切り替え">
+          <button
+            type="button"
+            class="guide-tab is-active"
+            role="tab"
+            aria-selected="true"
+            data-guide-tab="kew"
+          >
+            <span class="guide-tab-name">Kew POWO</span>
+            <span class="guide-tab-sub">学名・記載年・原産国</span>
+          </button>
+          <button
+            type="button"
+            class="guide-tab"
+            role="tab"
+            aria-selected="false"
+            data-guide-tab="orchidroots"
+          >
+            <span class="guide-tab-name">OrchidRoots</span>
+            <span class="guide-tab-sub">科・亜科・族・亜族</span>
+          </button>
+        </div>
+
+        <!-- Kew POWO 手順 -->
+        <div class="guide-panel" data-guide-panel="kew">
+          <ol class="guide-steps">
+            <li class="guide-step">
+              <p class="guide-step-title">1. 検索ボックスに種名を入力</p>
+              <p class="guide-step-desc">トップページの検索欄に学名（例: <em>Cattleya maxima</em>）を入力し、表示された候補または虫眼鏡アイコンを選択します。</p>
+              <figure class="guide-figure">
+                <img src="assets/guide-kew-1.jpg" alt="Kew POWOの検索ボックスにCattleya maximaを入力した画面" loading="lazy">
+              </figure>
+            </li>
+            <li class="guide-step">
+              <p class="guide-step-title">2. 検索結果から該当の種（SPECIES）を選択</p>
+              <p class="guide-step-desc">一覧に表示された <strong>SPECIES</strong> のカードをタップして詳細ページを開きます。</p>
+              <figure class="guide-figure">
+                <img src="assets/guide-kew-2.jpg" alt="Kew POWOの検索結果でSPECIESカードが表示された画面" loading="lazy">
+              </figure>
+            </li>
+            <li class="guide-step">
+              <p class="guide-step-title">3. 学名・記載者・記載年を確認</p>
+              <p class="guide-step-desc">ページ上部で <strong>Species Name</strong>（<em>Cattleya maxima</em>）と <strong>Author &amp; Year</strong>（<em>Lindl.</em> と <em>First published ... (1833)</em>）を確認できます。</p>
+              <figure class="guide-figure">
+                <img src="assets/guide-kew-3.jpg" alt="Kew POWOの詳細ページ上部で学名と記載者・記載年を確認する画面" loading="lazy">
+              </figure>
+            </li>
+            <li class="guide-step">
+              <p class="guide-step-title">4. Distribution タブで原産国を確認</p>
+              <p class="guide-step-desc">下部の <strong>Distribution</strong> タブを開くと、地図の下に <strong>Native to:</strong>（例: <em>Ecuador, Peru</em>）が表示されます。</p>
+              <figure class="guide-figure">
+                <img src="assets/guide-kew-4.jpg" alt="Kew POWOのDistributionタブでNative toの原産国を確認する画面" loading="lazy">
+              </figure>
+            </li>
+          </ol>
+        </div>
+
+        <!-- OrchidRoots 手順 -->
+        <div class="guide-panel" data-guide-panel="orchidroots" hidden>
+          <ol class="guide-steps">
+            <li class="guide-step">
+              <p class="guide-step-title">1. 検索ボックスに種名を入力</p>
+              <p class="guide-step-desc">トップページ上部の検索欄に学名（例: <em>Cattleya maxima</em>）を入力して検索します。</p>
+              <figure class="guide-figure">
+                <img src="assets/guide-orchidroots-1.jpg" alt="OrchidRootsの検索ボックスにCattleya maximaを入力した画面" loading="lazy">
+              </figure>
+            </li>
+            <li class="guide-step">
+              <p class="guide-step-title">2. 分類（科・亜科・族・亜族）と学名を確認</p>
+              <p class="guide-step-desc">ページ上部に <strong>学名・記載者・記載年</strong>（例: <em>Cattleya maxima, Lindl. 1833</em>）が、本文に <strong>family / subfamily / tribe / subtribe</strong>（例: <em>Orchidaceae / Epidendroideae / Epidendreae / Laeliinae</em>）が記載されています。</p>
+              <figure class="guide-figure">
+                <img src="assets/guide-orchidroots-2.jpg" alt="OrchidRootsの詳細ページで学名・記載年と科・亜科・族・亜族を確認する画面" loading="lazy">
+              </figure>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="logo-data.js?v=20261126-15"></script>
+  <script src="sample-image-data.js?v=20261126-15"></script>
+  <script src="app.js?v=20261126-15"></script>
 </body>
 </html>
