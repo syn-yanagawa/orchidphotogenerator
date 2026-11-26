@@ -618,6 +618,51 @@ body {
   background: #2b2927;
 }
 
+.btn-share {
+  width: 100%;
+  background: var(--bg-box);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 15px 24px;
+}
+
+.btn-share[hidden] {
+  display: none;
+}
+
+.btn-share:hover {
+  background: var(--bg-box-hover);
+}
+
+.share-label {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 0.94rem;
+  letter-spacing: 0.1em;
+  flex-shrink: 0;
+}
+
+.share-line {
+  width: 56px;
+  height: 0;
+  border-top: 1px solid rgba(29, 27, 25, 0.28);
+  flex-shrink: 0;
+}
+
+.share-meta {
+  font-family: var(--font-ui);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 0.76rem;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
 .btn-primary {
   flex: 1 1 200px;
   background: var(--accent);

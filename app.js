@@ -129,6 +129,9 @@
     resetButton: document.getElementById('resetButton'),
     templateButtons: Array.from(document.querySelectorAll('.template-card')),
     downloadJpgButton: document.getElementById('downloadJpgButton'),
+    shareImageButton: document.getElementById('shareImageButton'),
+    shareLabel: document.getElementById('shareLabel'),
+    shareMeta: document.getElementById('shareMeta'),
     disclaimerButton: document.getElementById('disclaimerButton'),
     disclaimerModal: document.getElementById('disclaimerModal'),
     disclaimerCloseButton: document.getElementById('disclaimerCloseButton')
@@ -623,6 +626,132 @@
   }
 
   /**
+   * 現在のキャンバスから指定MIMEタイプの Blob を非同期生成する
+   * @param {'image/png'|'image/jpeg'} mimeType - 出力MIMEタイプ
+   * @param {number} [quality] - JPEG 品質（0〜1）
+   * @returns {Promise<Blob>}
+   */
+  function canvasToBlob(mimeType, quality) {
+    renderPlate();
+    return new Promise((resolve, reject) => {
+      elements.canvas.toBlob((blob) => {
+        if (blob) {
+          resolve(blob);
+        } else {
+          reject(new Error('画像データの生成に失敗しました。'));
+        }
+      }, mimeType, quality);
+    });
+  }
+
+  /**
+   * 現在のブラウザ環境が Web Share API による画像ファイル共有に対応しているか判定する
+   * @returns {boolean}
+   */
+  function supportsFileShare() {
+    if (typeof navigator.share !== 'function' || typeof navigator.canShare !== 'function') {
+      return false;
+    }
+    try {
+      const dummyFile = new File([''], 'plate.jpg', { type: 'image/jpeg' });
+      return navigator.canShare({ files: [dummyFile] });
+    } catch {
+      return false;
+    }
+  }
+
+  /**
+   * 現在のブラウザ環境がクリップボードへの画像コピーに対応しているか判定する
+   * @returns {boolean}
+   */
+  function supportsImageClipboard() {
+    return Boolean(
+      window.isSecureContext &&
+      navigator.clipboard &&
+      typeof navigator.clipboard.write === 'function' &&
+      typeof window.ClipboardItem === 'function'
+    );
+  }
+
+  /**
+   * 共有時のキャプション文字列（学名＋記載者）を組み立てる
+   * @returns {string}
+   */
+  function buildShareCaption() {
+    const scientificName = elements.scientificNameInput.value.trim();
+    const authorYear = elements.authorYearInput.value.trim();
+    return [scientificName, authorYear].filter(Boolean).join(' ');
+  }
+
+  /**
+   * 実行環境に応じて Share / Copy Image ボタンの表示モードを初期化する
+   * HTTP 環境など非対応環境ではボタンを非表示のまま安全にフォールバックする
+   */
+  function setupShareButton() {
+    if (!elements.shareImageButton) return;
+
+    if (supportsFileShare()) {
+      elements.shareImageButton.dataset.mode = 'share';
+      if (elements.shareLabel) elements.shareLabel.textContent = 'Share';
+      if (elements.shareMeta) elements.shareMeta.textContent = 'X・Instagram・保存';
+      elements.shareImageButton.hidden = false;
+    } else if (supportsImageClipboard()) {
+      elements.shareImageButton.dataset.mode = 'clipboard';
+      if (elements.shareLabel) elements.shareLabel.textContent = 'Copy Image';
+      if (elements.shareMeta) elements.shareMeta.textContent = 'クリップボードへコピー';
+      elements.shareImageButton.hidden = false;
+    } else {
+      elements.shareImageButton.hidden = true;
+    }
+  }
+
+  /**
+   * 生成画像を OS 共有シート（X / Instagram / 写真アプリ等）へ渡す、
+   * または対応 PC ブラウザでクリップボードへコピーする
+   */
+  async function handleShareOrCopy() {
+    if (!elements.shareImageButton) return;
+    const mode = elements.shareImageButton.dataset.mode;
+
+    if (mode === 'share') {
+      try {
+        const blob = await canvasToBlob('image/jpeg', 0.94);
+        const file = new File([blob], buildDownloadFileName('jpg'), { type: 'image/jpeg' });
+        const caption = buildShareCaption();
+        const sharePayload = { files: [file] };
+        if (caption) {
+          sharePayload.title = caption;
+          sharePayload.text = caption;
+        }
+        await navigator.share(sharePayload);
+      } catch (error) {
+        // ユーザーが共有シートを閉じた場合（AbortError）は正常終了として扱う
+        if (error && error.name !== 'AbortError') {
+          downloadPlate('image/jpeg', 'jpg');
+        }
+      }
+      return;
+    }
+
+    if (mode === 'clipboard') {
+      try {
+        const blob = await canvasToBlob('image/png');
+        await navigator.clipboard.write([new window.ClipboardItem({ 'image/png': blob })]);
+        if (elements.shareLabel && elements.shareMeta) {
+          elements.shareLabel.textContent = 'Copied';
+          elements.shareMeta.textContent = '投稿欄に貼り付けできます';
+          window.setTimeout(() => {
+            elements.shareLabel.textContent = 'Copy Image';
+            elements.shareMeta.textContent = 'クリップボードへコピー';
+          }, 2200);
+        }
+      } catch {
+        downloadPlate('image/jpeg', 'jpg');
+      }
+    }
+  }
+
+  /**
    * タッチデバイスでの位置調整モード（ドラッグ有効/無効）を切り替える
    * @param {boolean} enabled - true でタッチドラッグ有効、false で通常スクロール優先
    */
@@ -790,6 +919,13 @@
       downloadPlate('image/jpeg', 'jpg');
     });
 
+    // 画像共有（Web Share API）またはクリップボードコピー
+    if (elements.shareImageButton) {
+      elements.shareImageButton.addEventListener('click', () => {
+        handleShareOrCopy();
+      });
+    }
+
     // 免責事項・著作権ポップアップの開閉
     if (elements.disclaimerButton && elements.disclaimerModal) {
       const openModal = () => {
@@ -853,6 +989,7 @@
   /** 初期化処理 */
   function init() {
     elements.dateInput.value = formatTodayEnglish();
+    setupShareButton();
     bindEvents();
     loadBrandLogo();
     loadSampleImage();

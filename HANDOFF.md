@@ -72,8 +72,12 @@
   - 右：**OrchidRoots**（`https://orchidroots.com/`）
 - **フッター＆免責事項ポップアップ**: 游ゴシック Regular・`0.72rem` で `© 2026 Synonym` と「免責事項・著作権について」リンクを配置。クリックでサイト全体の明度を下げる暗幕オーバーレイ（`rgba(15, 16, 18, 0.56)`）の上に半透明の直角すりガラスボックスを表示（`×` ボタン・背景クリック・`Esc` キーで閉じる）。
 
-### 出力機能
-- **JPEG ダウンロードのみ**（品質 `0.94`、黒ボックス `#141413` 内に `Download` — `56px` 水平ボーダー — `JPEG・1600×2000px` を中央揃え・Times New Roman Regular Italic で配置）
+### 出力・共有機能
+- **JPEG ダウンロード**（品質 `0.94`、黒ボックス `#141413` 内に `Download` — `56px` 水平ボーダー — `JPEG・1600×2000px` を中央揃え・Times New Roman Regular Italic で配置）
+- **SNS 共有 / 画像コピー**（`Download` ボタンの下に青寄りグレー `#eef1f5` の直角ボタンを自動出し分け）
+  - Web Share API（ファイル共有）対応の HTTPS 環境（iOS / iPadOS Safari, Android Chrome 等）: `Share` — `X・Instagram・保存` として表示し、OS 標準共有シートへ JPEG ファイルと学名キャプションを渡す。
+  - Web Share 非対応かつ Clipboard API 対応の HTTPS 環境（PC ブラウザ等）: `Copy Image` — `クリップボードへコピー` として表示し、X 等の投稿欄へそのままペースト可能。
+  - 非対応環境（HTTP 直開き等）: ボタンを自動非表示にして `Download` のみ安全に動作。
 - ファイル名は学名から自動生成（例: `Cattleya_maxima.jpg`）
 
 ---
